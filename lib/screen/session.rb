@@ -6,14 +6,14 @@ module Screen
         def self.create(session, &block)
             screen_session = new(session)
             screen_session.instance_eval(&block)
-            system "screen -x #{session} -p 0"
+            Kernel.system "screen -x #{session} -p 0"
         end
     
         def initialize(session)
             @session       = session
             @first_window  = true
             @window_number = 0
-            system "screen -d -m -S #{@session}\n"
+            Kernel.system "screen -d -m -S #{@session}\n"
         end
 
         def window(window="w#{@window_number}", &block)
