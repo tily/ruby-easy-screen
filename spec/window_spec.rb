@@ -24,7 +24,7 @@ describe Screen::Window do
     describe '#exec' do
       
       before do
-          Kernel.stub(:system, 'stub')
+          Kernel.stub!(:system => 'stubbed')
           @window_number = 1
           @first_window = false
           @window = Screen::Window.new(@window_name, @window_number, @session_name, @first_window)
@@ -53,7 +53,7 @@ describe Screen::Window do
 
       it 'when called with unpredictables' do
           lambda {
-              @window.exec(1, Date.today)
+              @window.exec(1, {}, [])
           }.should raise_error(ArgumentError, 'not unix command')
       end
 
@@ -62,7 +62,7 @@ describe Screen::Window do
     describe '#method_missing' do
 
       before do
-          Kernel.stub(:system, 'stub')
+          Kernel.stub!(:system => 'stubbed')
           @window_number = 1
           @first_window = false
           @window = Screen::Window.new(@window_name, @window_number, @session_name, @first_window)
@@ -70,21 +70,21 @@ describe Screen::Window do
 
       it 'called with no args' do
           Kernel.should_receive(:system).with(
-             [%Q|screen -X -S #{@session_name} -p #{@window_number} hoge|]
+             %Q|screen -X -S #{@session_name} -p #{@window_number} hoge|
           )
           @window.method_missing('hoge')
       end
 
       it 'called with string' do
           Kernel.should_receive(:system).with(
-             [%Q|screen -X -S #{@session_name} -p #{@window_number} hoge fuga|]
+             %Q|screen -X -S #{@session_name} -p #{@window_number} hoge fuga|
           )
           @window.method_missing('hoge', 'fuga')
       end
 
       it 'called with strings and numbers' do
           Kernel.should_receive(:system).with(
-             [%Q|screen -X -S #{@session_name} -p #{@window_number} hoge 1|]
+             %Q|screen -X -S #{@session_name} -p #{@window_number} hoge 1|
           )
           @window.method_missing('hoge', 1)
       end
