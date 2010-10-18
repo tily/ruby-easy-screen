@@ -30,6 +30,21 @@ ends up like this:
 
 <img src="http://gyazo.com/88d2bf51e72307c33a7b189faf65ebaf.png" />
 
+username = 'your_username'
+password = 'your_password'
+
+### SSH Other Server in each Window
+
+    Screen('log_tail') {
+        servers = ['web01', 'web02', 'web03', 'app01', 'app02', 'app03']
+        servers.each {|s|
+            window(s) {
+                ssh s, username, password
+                exec 'tail -f /var/apache2/log/error_log'
+            }
+        } 
+    }
+
 Install
 -------
 

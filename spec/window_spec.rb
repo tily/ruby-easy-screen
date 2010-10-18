@@ -59,6 +59,32 @@ describe Screen::Window do
 
     end
 
+    describe '#ssh' do
+
+      before do
+          Kernel.stub!(:system => 'stubbed')
+          @window_number = 1
+          @first_window = false
+          @window = Screen::Window.new(@window_name, @window_number, @session_name, @first_window)
+      end
+
+      it 'called with hostname and username' do
+          Kernel.should_receive(:system).with(
+             %Q|screen -X -S #{@session_name} -p #{@window_number} stuff "ssh user@hostname\n"|
+          )
+          @window.ssh('hostname', 'user')
+      end
+
+      it 'called with hostaname, username, and password' do
+          Kernel.should_receive(:system).twice.with(
+             [%Q|screen -X -S #{@session_name} -p #{@window_number} stuff "ssh user@hostname\n"|],
+             [%Q|screen -X -S #{@session_name} -p #{@window_number} stuff "password\r"|]
+          )
+          @window.ssh('hostname', 'user', 'password')
+      end
+
+    end
+
     describe '#method_missing' do
 
       before do

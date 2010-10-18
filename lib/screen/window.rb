@@ -29,6 +29,17 @@ module Screen
             Kernel.system "screen -X -S #{@session} -p #{@window_number} stuff #{stuffed}"
         end
 
+
+        def ssh(hostname, username, password=nil)
+            stuffed = %Q|"ssh #{username}@#{hostname}\n"|
+            Kernel.system "screen -X -S #{@session} -p #{@window_number} stuff #{stuffed}"
+            if(password)
+                sleep 1 # TODO: not literal, provide as some variable
+                stuffed = %Q|"#{password}\r"|
+                Kernel.system "screen -X -S #{@session} -p #{@window_number} stuff #{stuffed}"
+            end
+        end
+
         def method_missing(command, *args)
             unix_command = "screen -X -S #{@session} -p #{@window_number} #{command}"
             if !args.size.zero?
