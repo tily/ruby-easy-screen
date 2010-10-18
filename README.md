@@ -1,4 +1,4 @@
-Screen
+EasyScreen
 ======
 
 Usage
@@ -33,7 +33,7 @@ ends up like this:
 Install
 -------
 
- gem install screen
+ gem install easy-screen
 
 
 Requirements

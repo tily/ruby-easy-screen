@@ -4,7 +4,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "screen"
+    gem.name = "easy-screen"
     gem.summary = %Q{easy screen scripting}
     gem.description = %Q{easy screen scripting}
     gem.email = "tily05@gmail.com"
