@@ -36,6 +36,7 @@ password = 'your_password'
 ### SSH Other Server in each Window
 
     Screen('log_tail') {
+        username, password = 'some_username', 'some_password'
         servers = ['web01', 'web02', 'web03', 'app01', 'app02', 'app03']
         servers.each {|s|
             window(s) {
